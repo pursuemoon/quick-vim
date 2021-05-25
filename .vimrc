@@ -60,8 +60,10 @@ filetype plugin indent on    " required
 let mapleader = ";"
 
 set backspace=indent,eol,start
-set mouse=a
+set mouse=c
 set number
+set nowrap
+set smartindent
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -149,6 +151,8 @@ let g:mkdp_open_to_the_world = 0
 
 " airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 
 " tabular
