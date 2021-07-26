@@ -60,8 +60,10 @@ filetype plugin indent on    " required
 let mapleader = ";"
 
 set backspace=indent,eol,start
-set mouse=a
+set mouse=c
 set number
+set nowrap
+set smartindent
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -76,6 +78,24 @@ colorscheme Chasing_Logic
 nnoremap fw :w<cr>
 nnoremap fq :q<cr>
 nnoremap fwq :wq<cr>
+
+nnoremap J :bp<cr>
+nnoremap K :bn<cr>
+nnoremap <leader>w <c-w>w
+nnoremap <leader>j <c-w>j
+nnoremap <leader>k <c-w>k
+nnoremap <leader>h <c-w>h
+nnoremap <leader>l <c-w>l
+nnoremap <leader>1 :b 1<cr>
+nnoremap <leader>2 :b 2<cr>
+nnoremap <leader>3 :b 3<cr>
+nnoremap <leader>4 :b 4<cr>
+nnoremap <leader>5 :b 5<cr>
+nnoremap <leader>6 :b 6<cr>
+nnoremap <leader>7 :b 7<cr>
+nnoremap <leader>8 :b 8<cr>
+nnoremap <leader>9 :b 9<cr>
+
 nnoremap yw viw"+y
 nnoremap y "+y
 vnoremap <c-c> "+y
@@ -91,6 +111,26 @@ nnoremap <leader>< i&lt;<esc>
 nnoremap <leader>> i&gt;<esc>
 inoremap <leader>< &lt;
 inoremap <leader>> &gt;
+
+" JSON 格式化
+vnoremap <leader>J :'<,'>!python -m json.tool<cr>
+
+" 编译运行
+nnoremap <f5> :call CompileAndRun()<cr>
+function! CompileAndRun()
+	execute "w"
+	if &filetype == 'c'
+		execute "!g++ % -o %<"
+		execute "!time ./%<"
+	elseif &filetype == 'cpp'
+		execute "!g++ % -o %<"
+		execute "!time ./%<"
+    elseif &filetype == 'sh'
+		execute "!time zsh %"
+    elseif &filetype == 'python'
+        execute "!time python3 %"
+	endif
+endfunction
 
 
 " nerdtree
@@ -149,11 +189,19 @@ let g:mkdp_open_to_the_world = 0
 
 " airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#left_sep = ' '
 
 
 " tabular
 nnoremap <leader>\| :Tab /\|<cr>
+vnoremap <leader>\| :Tab /\|<cr>
 nnoremap <leader>= :Tab /=<cr>
+vnoremap <leader>= :Tab /=<cr>
+nnoremap <leader>\ :Tab /\<cr>
+vnoremap <leader>\ :Tab /\<cr>
+
 
 " vim-rainbow
 let g:rainbow_active = 1
@@ -167,20 +215,3 @@ let g:rainbow_load_separately = [
 
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
-
-
-" 快捷键编译运行
-nnoremap <f5> :call CompileAndRun()<cr>
-function! CompileAndRun()
-	execute "w"
-	if &filetype == 'c'
-		execute "!g++ % -o %<"
-		execute "!time ./%<"
-	elseif &filetype == 'cpp'
-		execute "!g++ % -o %<"
-		execute "!time ./%<"
-    elseif &filetype == 'sh'
-		execute "!time zsh %"
-	endif
-endfunction
-
